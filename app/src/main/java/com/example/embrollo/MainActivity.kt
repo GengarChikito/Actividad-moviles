@@ -19,7 +19,10 @@ import com.example.embrollo.navigation.Screen
 import com.example.embrollo.ui.screens.HomeScreen
 import com.example.embrollo.ui.screens.ProfileScreen
 import com.example.embrollo.ui.screens.SettingsScreen
+import com.example.embrollo.ui.screens.RegistrationScreen
+import com.example.embrollo.ui.screens.SummaryScreen
 import com.example.embrollo.viewmodels.MainViewModel
+import com.example.embrollo.viewmodels.RegistrationViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -30,10 +33,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             EmbrolloTheme {
                 val viewModel: MainViewModel = viewModel()
+                // Instancia el nuevo ViewModel de Registro
+                val regViewModel: RegistrationViewModel = viewModel()
                 val navController = rememberNavController()
 
-                //escuchar eventos emitidos por viewmodel
-                LaunchedEffect(key1 = Unit) {
+                // Escuchar eventos de MainViewModel
+                LaunchedEffect(key1 = viewModel) {
                     viewModel.navigationEvents.collectLatest { event ->
                         when (event) {
                             is NavigationEvent.NavigateTo -> {
@@ -54,15 +59,36 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+
+                // Escuchar eventos de RegistrationViewModel (para la navegación de éxito)
+                LaunchedEffect(key1 = regViewModel) {
+                    regViewModel.navigationEvents.collectLatest { event ->
+                        when (event) {
+                            is NavigationEvent.NavigateTo -> {
+                                navController.navigate(event.route.route) {
+                                    // Al navegar al resumen, eliminamos la pantalla de registro de la pila
+                                    popUpTo(Screen.Registration.route) { inclusive = true }
+                                    launchSingleTop = event.singleTop
+                                    restoreState = true
+                                }
+                                regViewModel.navigationEventHandled()
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
 
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.Home.route,
+                        // Cambiamos el inicio para ir a Registro
+                        startDestination = Screen.Registration.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
+                        // Pantallas existentes
                         composable(route = Screen.Home.route) {
                             HomeScreen(navController = navController, viewModel = viewModel)
                         }
@@ -71,6 +97,27 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.Settings.route) {
                             SettingsScreen(navController = navController, viewModel = viewModel)
+                        }
+
+                        // NUEVAS PANTALLAS
+                        composable(route = Screen.Registration.route) {
+                            RegistrationScreen(
+                                viewModel = regViewModel,
+                                // La navegación ocurre en el LaunchedEffect, esta lambda es solo para consistencia
+                                onRegistrationSuccess = { /* No-op, la navegación es reactiva a regViewModel.navigationEvents */ }
+                            )
+                        }
+
+                        composable(route = Screen.Summary.route) {
+                            SummaryScreen(
+                                viewModel = regViewModel,
+                                onNavigateToHome = {
+                                    // Volver a Home y limpiar el back stack después del resumen
+                                    navController.navigate(Screen.Home.route) {
+                                        popUpTo(Screen.Home.route) { inclusive = true } // Se asegura que Summary se elimine
+                                    }
+                                }
+                            )
                         }
                     }
                 }

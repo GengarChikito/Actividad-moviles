@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    // 1. Plugin de Serialización de Kotlin
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -56,8 +58,10 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.11.0")
     implementation("androidx.compose.material:material-icons-extended")
 
+    // 2. Dependencia para la Serialización de Datos (si se usa @Serializable en UserData)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-    //dependencias de navegación
+    // dependencias de navegación
     implementation("androidx.navigation:navigation-compose:2.9.5")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
@@ -80,4 +84,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // 3. Dependencia ESENCIAL para runTest, setMain, advanceUntilIdle
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.10")
 }
