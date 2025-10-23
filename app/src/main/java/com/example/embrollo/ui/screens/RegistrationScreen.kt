@@ -32,122 +32,143 @@ fun RegistrationScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Registro de Usuario") })
-        }
+            TopAppBar(
+                title = {
+                    Text(
+                        "Registro de Usuario",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surface // Color de fondo del Scaffold
     ) { innerPadding ->
-        Column(
+        // Usa Surface para aplicar el color de fondo del tema al contenido
+        Surface(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
-                .padding(horizontal = 24.dp)
-                .padding(top = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
         ) {
-
-            RegistrationTextField(
-                value = uiState.name,
-                onValueChange = viewModel::updateName,
-                label = "Nombre Completo",
-                error = uiState.nameError,
-                leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) }
-            )
-
-            RegistrationTextField(
-                value = uiState.email,
-                onValueChange = viewModel::updateEmail,
-                label = "Correo Electrónico",
-                error = uiState.emailError,
-                leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) }
-            )
-
-            RegistrationTextField(
-                value = uiState.phone,
-                onValueChange = viewModel::updatePhone,
-                label = "Teléfono (9 dígitos)",
-                error = uiState.phoneError,
-                leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null) }
-            )
-
-            RegistrationTextField(
-                value = uiState.birthDate,
-                onValueChange = viewModel::updateBirthDate,
-                label = "Fecha de Nacimiento (DD/MM/AAAA)",
-                error = uiState.birthDateError,
-                leadingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) }
-            )
-
-            RegistrationTextField(
-                value = uiState.password,
-                onValueChange = viewModel::updatePassword,
-                label = "Contraseña",
-                error = uiState.passwordError,
-                isPassword = true,
-                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) }
-            )
-
-            RegistrationTextField(
-                value = uiState.confirmPassword,
-                onValueChange = viewModel::updateConfirmPassword,
-                label = "Confirmar Contraseña",
-                error = uiState.confirmPasswordError,
-                isPassword = true,
-                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) }
-            )
-
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Checkbox(
-                    checked = uiState.termsAccepted,
-                    onCheckedChange = viewModel::updateTermsAccepted
-                )
-                Text(
-                    text = "Acepto los términos y condiciones.",
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
-                )
-            }
 
-            uiState.termsError?.let {
-                Text(
-                    text = it,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
+                RegistrationTextField(
+                    value = uiState.name,
+                    onValueChange = viewModel::updateName,
+                    label = "Nombre Completo",
+                    error = uiState.nameError,
+                    leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) }
+                )
+
+                RegistrationTextField(
+                    value = uiState.email,
+                    onValueChange = viewModel::updateEmail,
+                    label = "Correo Electrónico",
+                    error = uiState.emailError,
+                    leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) }
+                )
+
+                RegistrationTextField(
+                    value = uiState.phone,
+                    onValueChange = viewModel::updatePhone,
+                    label = "Teléfono (9 dígitos)",
+                    error = uiState.phoneError,
+                    leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null) }
+                )
+
+                RegistrationTextField(
+                    value = uiState.birthDate,
+                    onValueChange = viewModel::updateBirthDate,
+                    label = "Fecha de Nacimiento (DD/MM/AAAA)",
+                    error = uiState.birthDateError,
+                    leadingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) }
+                )
+
+                RegistrationTextField(
+                    value = uiState.password,
+                    onValueChange = viewModel::updatePassword,
+                    label = "Contraseña",
+                    error = uiState.passwordError,
+                    isPassword = true,
+                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) }
+                )
+
+                RegistrationTextField(
+                    value = uiState.confirmPassword,
+                    onValueChange = viewModel::updateConfirmPassword,
+                    label = "Confirmar Contraseña",
+                    error = uiState.confirmPasswordError,
+                    isPassword = true,
+                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) }
+                )
+
+                // Checkbox para términos y condiciones
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 16.dp, bottom = 10.dp)
-                )
-            }
+                        .padding(vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(
+                        checked = uiState.termsAccepted,
+                        onCheckedChange = viewModel::updateTermsAccepted
+                    )
+                    Text(
+                        text = "Acepto los términos y condiciones.",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 8.dp)
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(10.dp))
+                uiState.termsError?.let {
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, bottom = 10.dp)
+                    )
+                }
 
-            uiState.generalError?.let {
-                Text(
-                    text = it,
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.padding(bottom = 10.dp)
-                )
-            }
+                Spacer(modifier = Modifier.height(10.dp))
 
-            Button(
-                onClick = viewModel::registerUser,
-                enabled = !uiState.isLoading,
-                modifier = Modifier.fillMaxWidth().height(50.dp)
-            ) {
-                if (uiState.isLoading) {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(24.dp))
-                } else {
-                    Text("Registrar", style = MaterialTheme.typography.titleMedium)
+                uiState.generalError?.let {
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
+                }
+
+                Button(
+                    onClick = viewModel::registerUser,
+                    enabled = !uiState.isLoading,
+                    modifier = Modifier.fillMaxWidth().height(50.dp)
+                ) {
+                    if (uiState.isLoading) {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(24.dp))
+                    } else {
+                        Text("Registrar", style = MaterialTheme.typography.titleMedium)
+                    }
                 }
             }
         }
     }
 }
 
+// Componente reutilizable para campos de texto con error
 @Composable
 fun RegistrationTextField(
     value: String,
@@ -162,6 +183,7 @@ fun RegistrationTextField(
         onValueChange = onValueChange,
         label = { Text(label) },
         isError = error != null,
+        // Muestra el mensaje de error con supportingText
         supportingText = if (error != null) {
             { Text(text = error, color = MaterialTheme.colorScheme.error) }
         } else null,

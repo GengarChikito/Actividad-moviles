@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.embrollo.R
 import com.example.embrollo.ui.theme.EmbrolloTheme
 
-
+//otro comentario por aca
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenCompact() {

@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 import com.example.embrollo.viewmodels.MainViewModel
 import androidx.compose.ui.Alignment
 import com.example.embrollo.navigation.Screen
-
+//me estoy aburriendo
 @Composable
 fun SettingsScreen(
   navController: NavController,

@@ -111,7 +111,7 @@ class RegistrationViewModelTest {
 
         val state = viewModel.uiState.value
         val user = viewModel.registeredUser.value
-
+//ayuda
         assertFalse(state.isLoading)
         assertTrue(state.registrationSuccess)
         assertNull(state.generalError)

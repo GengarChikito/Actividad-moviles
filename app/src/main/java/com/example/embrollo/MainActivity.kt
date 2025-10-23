@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
-
+//ando dejando comentarios por aqui permiso
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->

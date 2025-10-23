@@ -1,7 +1,7 @@
 package com.example.embrollo.model
 
 import kotlinx.serialization.Serializable
-
+//comentario
 @Serializable
 data class UserData(
     val name: String,
