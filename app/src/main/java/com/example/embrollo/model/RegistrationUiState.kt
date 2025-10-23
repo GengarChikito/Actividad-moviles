@@ -9,7 +9,7 @@ data class UserData1(
     val phone: String,
     val birthDate: String
 )
-
+//comentario
 data class RegistrationUiState(
     val name: String = "",
     val email: String = "",

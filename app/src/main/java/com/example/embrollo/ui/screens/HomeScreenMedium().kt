@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.embrollo.R
 import com.example.embrollo.ui.theme.EmbrolloTheme
 
-
+//otro aca
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenMedium() {

@@ -143,7 +143,7 @@ class RegistrationViewModel : ViewModel() {
             }
         }
     }
-
+//coment
     fun navigationEventHandled() {
         _navigationEvents.value = null
     }

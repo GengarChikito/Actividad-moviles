@@ -12,5 +12,5 @@ sealed class NavigationEvent {
     object PopBackStack : NavigationEvent()
 
     object NavigateUp: NavigationEvent()
-
+//comentario
 }

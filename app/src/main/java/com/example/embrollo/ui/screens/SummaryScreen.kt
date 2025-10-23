@@ -22,37 +22,55 @@ fun SummaryScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Resumen de Registro") })
-        }
+            TopAppBar(
+                title = {
+                    Text(
+                        "Resumen de Registro",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surface // Color de fondo del Scaffold
     ) { innerPadding ->
-        Column(
+        // Usa Surface para aplicar el color de fondo del tema
+        Surface(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+                .fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
         ) {
-            Text(
-                text = "¡Registro Exitoso!",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 32.dp)
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                Text(
+                    text = "¡Registro Exitoso!",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(bottom = 32.dp)
+                )
 
-            if (user != null) {
-                SummaryItem(label = "Nombre", value = user!!.name)
-                SummaryItem(label = "Email", value = user!!.email)
-                SummaryItem(label = "Teléfono", value = user!!.phone)
-                SummaryItem(label = "Nacimiento", value = user!!.birthDate)
-            } else {
-                Text("Error: No se encontraron datos de usuario.", color = MaterialTheme.colorScheme.error)
-            }
+                if (user != null) {
+                    SummaryItem(label = "Nombre", value = user!!.name)
+                    SummaryItem(label = "Email", value = user!!.email)
+                    SummaryItem(label = "Teléfono", value = user!!.phone)
+                    SummaryItem(label = "Nacimiento", value = user!!.birthDate)
+                } else {
+                    Text("Error: No se encontraron datos de usuario.", color = MaterialTheme.colorScheme.error)
+                }
 
-            Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(40.dp))
 
-            Button(onClick = onNavigateToHome) {
-                Text("Volver al Inicio")
+                Button(onClick = onNavigateToHome) {
+                    Text("Volver al Inicio")
+                }
             }
         }
     }
@@ -60,14 +78,22 @@ fun SummaryScreen(
 
 @Composable
 fun SummaryItem(label: String, value: String) {
+    // Muestra cada ítem del resumen de forma estructurada
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "$label:", fontWeight = FontWeight.SemiBold)
-        Text(text = value)
+        Text(
+            text = "$label:",
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
     Divider()
 }
